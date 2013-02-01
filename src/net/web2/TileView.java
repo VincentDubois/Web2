@@ -16,7 +16,10 @@
 
 package net.web2;
 
+import com.example.android.snake.R;
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -55,7 +58,7 @@ public class TileView extends View {
      * drawable that will be used for that reference
      */
     private Bitmap[] mTileArray; 
-
+   
     
     
     
@@ -66,6 +69,20 @@ public class TileView extends View {
      * index of the tile that should be drawn at that locations
      */
     private int[][] mTileGrid;
+    
+    private void initTileView() {
+        setFocusable(true);
+
+        Resources r = this.getContext().getResources();
+        
+        resetTiles(3);
+        loadTile(VIDE, r.getDrawable(R.drawable.ic_launcher));
+        loadTile(TOUR, r.getDrawable(R.drawable.tour));
+        loadTile(ROUTE, r.getDrawable(R.drawable.ennemi));
+    	
+    }
+    
+
 
     private final Paint mPaint = new Paint();
 
