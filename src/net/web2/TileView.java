@@ -52,16 +52,20 @@ public class TileView extends View {
 
     private static int mXOffset;
     private static int mYOffset;
+    
+
+    private static final int VIDE = 0;
+    private static final int ROUTE = 1;
+    private static final int TOUR = 2;
 
 
     private Matrix transform;
 	private Matrix intransform;
 
 
-    private static final int VIDE = 1;
-    private static final int ROUTE = 2;
-    private static final int TOUR = 3;
+
     
+
     /**
      * A hash that maps integer handles specified by the subclasser to the
      * drawable that will be used for that reference
@@ -94,6 +98,12 @@ public class TileView extends View {
 
 
     private final Paint mPaint = new Paint();
+    
+    void init(){
+        mXTileCount=15;
+        mYTileCount=10;
+        mTileGrid = new int [15][10];
+    }
 
     public void ajout(int x, int y){
     	if (mTileGrid[x][y]==VIDE){
@@ -109,16 +119,35 @@ public class TileView extends View {
     
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
+        
+        init();
+        int[][] mTileGrid = new int[][]{
+        		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
+        		{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+        		{0,0,2,1,0,0,0,0,0,0,0,0,0,0,0},
+        		{0,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
+        		{0,1,0,0,0,0,1,1,1,1,0,0,0,0,0},
+        		{0,1,0,0,0,0,1,0,0,1,2,0,0,0,0},
+        		{0,1,2,0,0,2,1,0,0,1,1,1,1,0,0},
+        		{0,1,1,1,1,1,1,0,0,0,0,2,1,0,0},
+        		{0,0,0,0,0,0,0,0,0,0,0,0,1,2,0},
+        		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+        		};
+        
+        };
+        
 /*        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
 
         mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
         
         a.recycle();*/
-    }
+    
 
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        
+        init();
+        
 /*
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
 
