@@ -172,12 +172,12 @@ public class TileView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int x = 0; x < mXTileCount; x += 1) {
-            for (int y = 0; y < mYTileCount; y += 1) {
-                if (mTileGrid[x][y] > 0) {
-                    canvas.drawBitmap(mTileArray[mTileGrid[x][y]], 
-                    		mXOffset + x * mTileSize,
-                    		mYOffset + y * mTileSize,
+        for (int i = 0; i < mXTileCount; i += 1) {
+            for (int j = 0; j < mYTileCount; j += 1) {
+                if (mTileGrid[i][j] > 0) {
+                    canvas.drawBitmap(mTileArray[mTileGrid[i][j]], 
+                    		mXOffset +  i * mTileSize,
+                    		mYOffset +  j * mTileSize,
                     		mPaint);
                 }
             }
