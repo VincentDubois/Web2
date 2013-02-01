@@ -26,6 +26,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.FloatMath;
+import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -206,9 +208,37 @@ public class TileView extends View {
                 }
             }
         }
-
     }
     
+    public int getI(float x){
+    	return (int) FloatMath.floor(x / mTileSize - mXOffset);
+    }
+    
+    public int getJ(float y){
+    	return (int) FloatMath.floor(y / mTileSize - mYOffset);
+    }
+    
+    public float getX(int i){
+    	return (float) (mXOffset +  i * mTileSize);
+    }
+    
+    public float getY(int j){
+    	return (float) (mYOffset +  j * mTileSize);
+    }
+     
+    /** @author remi.rischebe **/
+    // Evenement du clic souris pour ajout des tours
+    @Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction() == MotionEvent.ACTION_UP){
+	    	// Conversion des event.x et event.y
+	    	int i = getI(event.getX());
+	    	int j = getJ(event.getY());
+			if(mTileGrid[i][j] == VIDE)		ajout(i, j); // méthode ajout d'une tour
+			else if(mTileGrid[i][j] == TOUR)	suppression(i, j); // méthode suppresion d'une tour
+		}
+		return true;
+	}
     
     //Gestion taille ecran 
     @Override
