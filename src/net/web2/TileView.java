@@ -69,6 +69,10 @@ public class TileView extends View {
 
     private final Paint mPaint = new Paint();
 
+    public void ajout(int x, int y){
+    	mTileGrid[x][y] = 3;
+    }
+    
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
