@@ -99,7 +99,9 @@ public class TileView extends View {
     private final Paint mPaint = new Paint();
     
     void init(){
-
+        mXTileCount=15;
+        mYTileCount=10;
+        mTileSize = 50;
         initTileView();
         mTileGrid = new int[][]{
         		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
@@ -132,7 +134,16 @@ public class TileView extends View {
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-        };    
+    }
+        
+        
+/*       
+  		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
+
+        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
+        
+        a.recycle();*/
+    
 
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
