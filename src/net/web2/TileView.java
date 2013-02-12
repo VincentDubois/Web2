@@ -25,6 +25,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.view.MotionEvent;
@@ -44,8 +46,8 @@ public class TileView extends View {
      * dimensions. X/Y Tile Counts are the number of tiles that will be drawn.
      */
 
-    protected static int mTileSize = 40;
-    int w; int h;
+
+	int w, h;
 
     protected static int mXTileCount;
     protected static int mYTileCount;
@@ -57,8 +59,11 @@ public class TileView extends View {
     private static final int VIDE = 0;
     private static final int ROUTE = 1;
     private static final int TOUR = 2;
-    private Monstre ENEMY;
+    
+    private int mTileWidth;
+    private int mTileHeight;
 
+    private Monstre ENEMY;
 
     private Matrix transform;
 	private Matrix intransform;
@@ -68,7 +73,7 @@ public class TileView extends View {
      * drawable that will be used for that reference
      */
     private Bitmap[] mTileArray; 
-    
+
     /**
      * A two-dimensional array of integers in which the number represents the
      * index of the tile that should be drawn at that locations
@@ -78,17 +83,18 @@ public class TileView extends View {
     private void initTileView() {
         setFocusable(true);
         Resources r = this.getContext().getResources();
-        
         resetTiles(4);
         loadTile(VIDE, r.getDrawable(R.drawable.herbe));
         loadTile(TOUR, r.getDrawable(R.drawable.tour));
         loadTile(ROUTE, r.getDrawable(R.drawable.chemin));
-        
+        update();
     }
-	private final Paint mPaint = new Paint();
+    
+
+    private final Paint mPaint = new Paint();
     
     void init(){
-    	initTileView();
+        initTileView();
         mTileGrid = new int[][]{
         		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
         		{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
@@ -101,28 +107,28 @@ public class TileView extends View {
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,2,0},
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1}
         		};
-        mYTileCount=mTileGrid.length;
-        mXTileCount=mTileGrid[0].length;
+        mXTileCount = mTileGrid.length;
+        mYTileCount = mTileGrid[0].length;
     }
 
     public void ajout(int x, int y){
-    	if (mTileGrid[y][x]==VIDE){
-    	mTileGrid[y][x] = TOUR;
+    	if (getTile(x, y) == VIDE){
+    		setTile(TOUR, x, y);
     	}
     }
     
     public void suppression(int x, int y){
-    	if (mTileGrid[x][y] == TOUR){
-    		mTileGrid[x][y] = VIDE;
+    	if (getTile(x, y) == TOUR){
+    		setTile(VIDE, x, y);
     		invalidate();
     	}
     }
     
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         init();
-        };    
+    }
+  
 
     
         
@@ -137,7 +143,6 @@ public class TileView extends View {
 
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         init();
     }
 
@@ -146,7 +151,6 @@ public class TileView extends View {
     public TileView(Context context) {
         super(context);
         init();
-
     }
     
     /**
@@ -168,9 +172,11 @@ public class TileView extends View {
      * @param tile
      */
     public void loadTile(int key, Drawable tile) {
-        Bitmap bitmap = Bitmap.createBitmap(mTileSize, mTileSize, Bitmap.Config.ARGB_8888);
+    	mTileWidth = tile.getIntrinsicWidth();
+    	mTileHeight = tile.getIntrinsicHeight();
+        Bitmap bitmap = Bitmap.createBitmap(mTileWidth, mTileHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        tile.setBounds(0, 0, mTileSize, mTileSize);
+        tile.setBounds(0, 0, mTileWidth, mTileHeight);
         tile.draw(canvas);
         
         mTileArray[key] = bitmap;
@@ -180,13 +186,13 @@ public class TileView extends View {
      * Resets all tiles to 0 (empty)
      * 
      */
-/*    public void clearTiles() {
+    public void clearTiles() {
         for (int x = 0; x < mXTileCount; x++) {
             for (int y = 0; y < mYTileCount; y++) {
                 setTile(0, x, y);
             }
         }
-    }*/
+    }
 
     /**
      * Used to indicate that a particular tile (set with loadTile and referenced
@@ -200,53 +206,73 @@ public class TileView extends View {
     public void setTile(int tileindex, int x, int y) {
         mTileGrid[x][y] = tileindex;
     }
+    
+    public int getTile(int x, int y){
+    	return mTileGrid[x][y];
+    }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int j = 0; j < mXTileCount; j += 1) {
-            for (int i = 0; i < mYTileCount; i += 1) {
-                if (mTileGrid[i][j] >= 0) {
-                    canvas.drawBitmap(mTileArray[mTileGrid[i][j]], 
-                    		mXOffset +  j * mTileSize,
-                    		mYOffset +  i * mTileSize,
+        canvas.concat(transform);
+        for (int i = 0; i < mXTileCount; i++) {
+            for (int j = 0; j < mYTileCount; j++) {
+                if (getTile(i, j) >= 0) {
+                    canvas.drawBitmap(mTileArray[getTile(i, j)], 
+                    		getX(i),
+                    		getY(j),
                     		mPaint);
                 }
             }
         }
     }
+    
+	private RefreshHandler mRedrawHandler = new RefreshHandler();
+
+	class RefreshHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			TileView.this.update();
+			TileView.this.invalidate();
+		}
+
+		public void sleep(long delayMillis) {
+			this.removeMessages(0);
+			sendMessageDelayed(obtainMessage(0), delayMillis);
+		}
+	};
+    
+    public void update() {
+		mRedrawHandler.sleep(40);
+    }
+    
     public int getI(float x){
-    	return (int) FloatMath.floor((x - mXOffset) / mTileSize);
+    	return (int) FloatMath.floor(x / mTileWidth);
     }
     
     public int getJ(float y){
-    	return (int) FloatMath.floor((y - mXOffset) / mTileSize);
+    	return (int) FloatMath.floor(y / mTileHeight);
     }
     
     public float getX(int i){
-    	return (float) (mXOffset +  i * mTileSize);
+    	return (float) (i * mTileWidth);
     }
     
     public float getY(int j){
-    	return (float) (mYOffset +  j * mTileSize);
+    	return (float) (j * mTileHeight);
     }
      
-    /** @author remi.rischebe **/
     // Evenement du clic souris pour ajout des tours
     @Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_UP){
 	    	// Conversion des event.x et event.y
-	    	int i = getI(event.getX());
-	    	int j = getJ(event.getY());
-			if(mTileGrid[i][j] == VIDE){	
-				ajout(i, j); // méthode ajout d'une tour
-				
-				}
-			else if(mTileGrid[i][j] == TOUR){	
-				suppression(i, j); // méthode suppresion d'une tour
-				
-				}
+			float[] tabFloat = new float[]{event.getX(), event.getY()};
+			intransform.mapPoints(tabFloat);
+	    	int i = getI(tabFloat[0]);
+	    	int j = getJ(tabFloat[1]);
+			if(getTile(i, j) == VIDE)		ajout(i, j); // méthode ajout d'une tour
+			else if(getTile(i, j) == TOUR)	suppression(i, j); // méthode suppression d'une tour
 		}
 		return true;
 	}
@@ -256,13 +282,10 @@ public class TileView extends View {
     protected void onSizeChanged(int largeur, int hauteur, int ancien_largeur, int ancien_hauteur) {
     	super.onSizeChanged(largeur, hauteur, ancien_largeur, ancien_hauteur);
 
-        mXOffset = ((largeur - (mTileSize * mXTileCount)) / 2);
-        mYOffset = ((hauteur - (mTileSize * mYTileCount)) / 2);
-        
-		transform = new Matrix();
+        transform = new Matrix();
 		intransform = new Matrix();
-		RectF rectVoulu = new RectF(0, 0, largeur, hauteur);
-		RectF rectReel = new RectF(0, 0, ancien_largeur, ancien_hauteur);
+		RectF rectVoulu = new RectF(0, 0, mTileWidth * mXTileCount, mTileHeight * mYTileCount);
+		RectF rectReel = new RectF(0, 0, largeur, hauteur);
 		transform.setRectToRect(rectVoulu, rectReel, Matrix.ScaleToFit.CENTER);	
 		transform.invert(intransform);
 	}
