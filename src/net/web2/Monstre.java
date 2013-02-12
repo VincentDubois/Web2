@@ -17,22 +17,12 @@ public class Monstre {
 	float x;
 	float y;
 	
-	public Monstre(Bitmap bitmap, float position, Wave wave){
+	public Monstre(Bitmap bitmap, float position, Wave wave, Chemin chemin){
 		this.bitmap = bitmap;
-		this.x = x;
-		this.y = y;
+		this.position = position;
 		this.wave = wave;
 		paint = new Paint();
-	}
-	
-	private int getXposition(){
-		x = chemin.getX(position);
-		return (int) x;
-	}
-	
-	private int getYposition(){
-		y = chemin.getY(position);
-		return (int) y;
+		this.chemin = chemin;
 	}
 	
 	private void move(){

@@ -11,13 +11,13 @@ public class Wave {
 	ArrayList<Monstre> liste_monstres;
 	float position;
 	
-	public Wave(Bitmap bitmap) {
+	public Wave(Bitmap bitmap, Chemin chemin) {
 		this.bitmap = bitmap;
 		liste_monstres = new ArrayList<Monstre>();
 		
-		liste_monstres.add(new Monstre(bitmap, position, this));
-		liste_monstres.add(new Monstre(bitmap, position, this));
-		liste_monstres.add(new Monstre(bitmap, position, this));
+		liste_monstres.add(new Monstre(bitmap, 0, this,chemin));
+		liste_monstres.add(new Monstre(bitmap, 1, this,chemin));
+		liste_monstres.add(new Monstre(bitmap, 2, this,chemin));
 
 	}
 	
