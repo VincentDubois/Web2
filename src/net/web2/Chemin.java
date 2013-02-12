@@ -5,7 +5,7 @@ public class Chemin {
 	int[] fin;
 	private int[][] run;
 
-	void run(){
+	public Chemin(){
 		run = new int[][]{
 				{0,0},{0,1},{0,2},{0,3},{1,3},{2,3},{3,3},{3,2},{3,1},
 				{4,1},{5,1},{6,1},{7,1},{7,2},{7,3},{7,4},{7,5},{7,6},

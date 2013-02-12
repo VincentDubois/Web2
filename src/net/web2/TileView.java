@@ -18,6 +18,7 @@ package net.web2;
 
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -65,6 +66,8 @@ public class TileView extends View {
 
     private Matrix transform;
 	private Matrix intransform;
+	
+	private Bitmap bmp_ennemi;
 
     /**
      * A hash that maps integer handles specified by the subclasser to the
@@ -86,7 +89,7 @@ public class TileView extends View {
         loadTile(VIDE, r.getDrawable(R.drawable.herbe));
         loadTile(TOUR, r.getDrawable(R.drawable.tour));
         loadTile(ROUTE, r.getDrawable(R.drawable.chemin));
-		vague_monstres = new Wave(ennemi.bitmap);
+        bmp_ennemi = loadImage(R.drawable.ennemi);
         update();
     }
     
@@ -109,6 +112,7 @@ public class TileView extends View {
         		};
         mYTileCount = mTileGrid.length;
         mXTileCount = mTileGrid[0].length;
+		vague_monstres = new Wave(bmp_ennemi);
     }
 
     public void ajout(int x, int y){
@@ -176,9 +180,20 @@ public class TileView extends View {
         Canvas canvas = new Canvas(bitmap);
         tile.setBounds(0, 0, mTileWidth, mTileHeight);
         tile.draw(canvas);
-        
         mTileArray[key] = bitmap;
     }
+    
+	public Bitmap loadImage(int key) {
+		Resources r = this.getContext().getResources();
+		Drawable drawable = r.getDrawable(key);
+		int x = drawable.getIntrinsicWidth();
+		int y = drawable.getIntrinsicHeight();
+		Bitmap bitmap = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, x, y);
+		drawable.draw(canvas);
+		return bitmap;
+	}
 
     /**
      * Resets all tiles to 0 (empty)

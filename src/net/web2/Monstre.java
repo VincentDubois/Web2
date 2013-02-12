@@ -17,11 +17,11 @@ public class Monstre {
 	float x;
 	float y;
 	
-	void Monstre(Bitmap bitmap, float x, float y, Wave wave){
-		bitmap = this.bitmap;
-		x = this.x;
-		y = this.y;
-		wave = this.wave;
+	public Monstre(Bitmap bitmap, float x, float y, Wave wave){
+		this.bitmap = bitmap;
+		this.x = x;
+		this.y = y;
+		this.wave = wave;
 		paint = new Paint();
 	}
 	
