@@ -8,16 +8,22 @@ public class Monstre {
 	Bitmap bitmap;
 	float dDD; // distance Depuis Début
 	float vx=1; // vitesse
-	
-	private void move(int x){
-		
-	}
+	int position;
+	TileView grille;
+	float x;
+	float y;
 	
 	private int getX(){
-		return 0;
+		x = grille.getX(position);
+		return (int) x;
 	}
 	
 	private int getY(){
-		return 0;
+		y = grille.getY(position);
+		return (int) y;
+	}
+	
+	private void move(){
+		position = position + 1; // ou ++position
 	}
 }
