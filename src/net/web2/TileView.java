@@ -16,6 +16,7 @@
 
 package net.web2;
 
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -52,7 +53,6 @@ public class TileView extends View {
     private static int mXOffset;
     private static int mYOffset;
     
-
     private static final int VIDE = 0;
     private static final int ROUTE = 1;
     private static final int TOUR = 2;
@@ -61,20 +61,11 @@ public class TileView extends View {
     private Matrix transform;
 	private Matrix intransform;
 
-
-
-    
-
     /**
      * A hash that maps integer handles specified by the subclasser to the
      * drawable that will be used for that reference
      */
     private Bitmap[] mTileArray; 
-   
-    
-    
-    
-    
     
     /**
      * A two-dimensional array of integers in which the number represents the
@@ -84,7 +75,6 @@ public class TileView extends View {
     
     private void initTileView() {
         setFocusable(true);
-
         Resources r = this.getContext().getResources();
         
         resetTiles(3);
@@ -94,13 +84,10 @@ public class TileView extends View {
     	
     }
     
-
-
     private final Paint mPaint = new Paint();
     
     void init(){
-
-        initTileView();
+    	initTileView();
         mTileGrid = new int[][]{
         		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
         		{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
@@ -113,35 +100,52 @@ public class TileView extends View {
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,2,0},
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1}
         		};
-        mXTileCount=mTileGrid.length;
-        mYTileCount=mTileGrid[0].length;
+        mYTileCount=mTileGrid.length;
+        mXTileCount=mTileGrid[0].length;
     }
 
     public void ajout(int x, int y){
-    	if (mTileGrid[x][y]==VIDE){
-    	mTileGrid[x][y] = TOUR;
+    	if (mTileGrid[y][x]==VIDE){
+    	mTileGrid[y][x] = TOUR;
     	}
     }
     
     public void suppression(int x, int y){
     	if (mTileGrid[x][y] == TOUR){
     		mTileGrid[x][y] = VIDE;
+    		invalidate();
     	}
     }
     
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
         init();
         };    
 
+    
+        
+        
+/*       
+  		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
+
+        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
+        
+        a.recycle();*/
+    
+
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         init();
     }
+
+
 
     public TileView(Context context) {
         super(context);
         init();
+
     }
 
     
@@ -203,12 +207,12 @@ public class TileView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < mXTileCount; i += 1) {
-            for (int j = 0; j < mYTileCount; j += 1) {
-                if (mTileGrid[i][j] > 0) {
+        for (int j = 0; j < mXTileCount; j += 1) {
+            for (int i = 0; i < mYTileCount; i += 1) {
+                if (mTileGrid[i][j] >= 0) {
                     canvas.drawBitmap(mTileArray[mTileGrid[i][j]], 
-                    		mXOffset +  i * mTileSize,
-                    		mYOffset +  j * mTileSize,
+                    		mXOffset +  j * mTileSize,
+                    		mYOffset +  i * mTileSize,
                     		mPaint);
                 }
             }
@@ -239,8 +243,14 @@ public class TileView extends View {
 	    	// Conversion des event.x et event.y
 	    	int i = getI(event.getX());
 	    	int j = getJ(event.getY());
-			if(mTileGrid[i][j] == VIDE)		ajout(i, j); // méthode ajout d'une tour
-			else if(mTileGrid[i][j] == TOUR)	suppression(i, j); // méthode suppresion d'une tour
+			if(mTileGrid[i][j] == VIDE){	
+				ajout(i, j); // méthode ajout d'une tour
+				
+				}
+			else if(mTileGrid[i][j] == TOUR){	
+				suppression(i, j); // méthode suppresion d'une tour
+				
+				}
 		}
 		return true;
 	}
@@ -250,10 +260,8 @@ public class TileView extends View {
     protected void onSizeChanged(int largeur, int hauteur, int ancien_largeur, int ancien_hauteur) {
     	super.onSizeChanged(largeur, hauteur, ancien_largeur, ancien_hauteur);
 
-
         mXOffset = ((largeur - (mTileSize * mXTileCount)) / 2);
         mYOffset = ((hauteur - (mTileSize * mYTileCount)) / 2);
-
         
 		transform = new Matrix();
 		intransform = new Matrix();
