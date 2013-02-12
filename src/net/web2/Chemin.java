@@ -20,5 +20,4 @@ public class Chemin {
 	private int[] getFinal(){
 		return fin = run[run.length-1];
 	}
-	
 }
