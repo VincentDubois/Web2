@@ -5,8 +5,17 @@
     android:orientation="vertical" >
 
     <net.web2.TileView
-        android:id="@+id/tileView1"
+        android:id="@+id/tileView_jeu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <GridView
+        android:id="@+id/gridView_tours"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="4" >
+    </GridView>
 
 </LinearLayout>
