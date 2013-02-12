@@ -10,14 +10,14 @@ public class Monstre {
 	Bitmap bitmap;
 	float dDD; // distance Depuis Début
 	float vx=1; // vitesse
-	int position;
+	float position;
 	TileView grille;
 	Paint paint;
 	Wave wave;
 	float x;
 	float y;
 	
-	public Monstre(Bitmap bitmap, float x, float y, Wave wave){
+	public Monstre(Bitmap bitmap, float position, Wave wave){
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
@@ -25,13 +25,13 @@ public class Monstre {
 		paint = new Paint();
 	}
 	
-	private int getX(){
-		x = grille.getX(position);
+	private int getXposition(){
+		x = chemin.getX(position);
 		return (int) x;
 	}
 	
-	private int getY(){
-		y = grille.getY(position);
+	private int getYposition(){
+		y = chemin.getY(position);
 		return (int) y;
 	}
 	
