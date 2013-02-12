@@ -14,22 +14,30 @@ public class Monstre {
 	TileView grille;
 	Paint paint;
 	Wave wave;
-	float x;
-	float y;
+
 	
+
 	public Monstre(Bitmap bitmap, float position, Wave wave, Chemin chemin){
 		this.bitmap = bitmap;
 		this.position = position;
 		this.wave = wave;
-		paint = new Paint();
 		this.chemin = chemin;
+		paint = new Paint();
 	}
 	
-	private void move(){
+	void move(){
 		position = position + 1; // ou ++position
 	}
 	
 	public void draw(Canvas canvas) {
-		canvas.drawBitmap(bitmap, x, y, paint);
+		canvas.drawBitmap(bitmap, getX(), getY(), paint);
+	}
+
+	public float getX() {
+		return chemin.getX(position);
+	}
+	
+	public float getY() {
+		return chemin.getY(position);
 	}
 }
