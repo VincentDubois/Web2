@@ -107,8 +107,8 @@ public class TileView extends View {
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,2,0},
         		{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1}
         		};
-        mXTileCount = mTileGrid.length;
-        mYTileCount = mTileGrid[0].length;
+        mYTileCount = mTileGrid.length;
+        mXTileCount = mTileGrid[0].length;
     }
 
     public void ajout(int x, int y){
@@ -204,11 +204,11 @@ public class TileView extends View {
      * @param y
      */
     public void setTile(int tileindex, int x, int y) {
-        mTileGrid[x][y] = tileindex;
+        mTileGrid[y][x] = tileindex;
     }
     
     public int getTile(int x, int y){
-    	return mTileGrid[x][y];
+    	return mTileGrid[y][x];
     }
 
     @Override

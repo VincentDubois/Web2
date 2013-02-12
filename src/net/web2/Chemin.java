@@ -14,8 +14,8 @@ public class Chemin {
 		
 	}
 	
-	private int[] getCoord(int x){
-		return run[x];
+	private int[] getFinal(){
+		return run[run.length-1];
 	}
 	
 /*	debut = getCoord();
