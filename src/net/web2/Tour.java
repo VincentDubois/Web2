@@ -1,6 +1,6 @@
 package net.web2;
 
-import android.graphics.Bitmap;
+import java.util.ArrayList;
 
 public class Tour {
 	int i, j;

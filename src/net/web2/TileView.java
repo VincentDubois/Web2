@@ -109,6 +109,7 @@ public class TileView extends View {
 		gestion_vague = new WaveManager();
 		gestion_vague.setWave(bmp_ennemi, chemin, 6);
 		vague_monstres = gestion_vague.getWave();
+		liste_Tours = new ArrayList<Tour>();
         initTileView();
         mTileGrid = new int[][]{
         		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
