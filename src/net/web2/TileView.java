@@ -266,7 +266,7 @@ public class TileView extends View {
     public void update() {
 		if(vague_monstres.arrived(chemin))	vie--;
     	else vague_monstres.move();
-		mRedrawHandler.sleep(2000);
+		mRedrawHandler.sleep(50);
     }
     
     public int getI(float x){

@@ -45,11 +45,19 @@ public class Chemin {
         
     }
 	
-	float getXInterpolation(float position){
+	public float getXInterpolation(float position){
 		  int i = (int) position; //indice de la case que l'on quitte
 		  float x1 = getX(i); //abscisse de la case que l'on quitte
 		  float x2 = getX(i+1); //abscisse de la case o� l'on arrive
 		  float c  = position-i; //fraction du trajet parcouru entre les deux cases
 		  return x2*c + x1*(1-c); //combinaison des  abscisses.
+	}
+	
+	public float getYInterpolation(float position){
+		  int i = (int) position; //indice de la case que l'on quitte
+		  float y1 = getY(i); //ordonnée de la case que l'on quitte
+		  float y2 = getY(i+1); //ordonnée de la case o� l'on arrive
+		  float c  = position-i; //fraction du trajet parcouru entre les deux cases
+		  return y2*c + y1*(1-c); //combinaison des  ordonnées.
 	}
 }

@@ -9,24 +9,23 @@ public class Monstre {
 	Chemin chemin;
 	Bitmap bitmap;
 	float dDD; // distance Depuis D�but
-	float vx=1; // vitesse
+	float vx; // vitesse
 	float position;
 	TileView grille;
 	Paint paint;
 	Wave wave;
-
-	
 
 	public Monstre(Bitmap bitmap, float position, Wave wave, Chemin chemin){
 		this.bitmap = bitmap;
 		this.position = position;
 		this.wave = wave;
 		this.chemin = chemin;
+		vx = (float) 0.1;
 		paint = new Paint();
 	}
 	
 	void move(){
-		position++;		//position = chemin.getXInterpolation(position) + 1;
+		position += vx;
 	}
 	
 	public void draw(Canvas canvas) {
@@ -34,10 +33,10 @@ public class Monstre {
 	}
 
 	public float getX() {
-		return chemin.getX(position);
+		return chemin.getXInterpolation(position);
 	}
 	
 	public float getY() {
-		return chemin.getY(position);
+		return chemin.getYInterpolation(position);
 	}
 }
