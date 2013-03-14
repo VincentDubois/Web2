@@ -17,6 +17,7 @@
 package net.web2;
 
 import android.content.Context;
+import java.util.ArrayList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -66,6 +67,9 @@ public class TileView extends View {
 	private Bitmap bmp_ennemi;
 	private Chemin chemin;
 
+	
+	private ArrayList<Tour> liste_Tours;
+	
     /**
      * A hash that maps integer handles specified by the subclasser to the
      * drawable that will be used for that reference
@@ -131,6 +135,8 @@ public class TileView extends View {
     		invalidate();
     	}
     }
+    
+    
     
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
