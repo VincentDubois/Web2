@@ -6,6 +6,7 @@ public class Tour {
 	int i, j;
 	int porteeMin, porteeMax;
 	int puissance;
+	Monstre cible;
 	
 	public Tour(int i, int j, int porteeMin, int porteeMax, int puissance) {
 		this.i = i;
@@ -13,6 +14,7 @@ public class Tour {
 		this.porteeMin = porteeMin;
 		this.porteeMax = porteeMax;
 		this.puissance = puissance;
+		this.cible = null;
 	}
 	
 }
