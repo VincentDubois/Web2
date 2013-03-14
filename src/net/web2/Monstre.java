@@ -8,7 +8,7 @@ public class Monstre {
 	
 	Chemin chemin;
 	Bitmap bitmap;
-	float dDD; // distance Depuis Début
+	float dDD; // distance Depuis Dï¿½but
 	float vx=1; // vitesse
 	float position;
 	TileView grille;
@@ -26,7 +26,7 @@ public class Monstre {
 	}
 	
 	void move(){
-		position = position + 1; // ou ++position
+		position++;		//position = chemin.getXInterpolation(position) + 1;
 	}
 	
 	public void draw(Canvas canvas) {

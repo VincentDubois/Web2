@@ -16,12 +16,16 @@ public class Chemin {
 		this.grille = grille;
 	}
 
-	private int[] getDebut(){
+	public int[] getDebut(){
 		return debut = run[0];
 	}
 	
-	private int[] getFinal(){
+	public int[] getFinal(){
 		return fin = run[run.length-1];
+	}
+	
+	public int getPositionFinale(){
+		return run.length-1;
 	}
 	
 	public float getI(float position){
@@ -44,7 +48,7 @@ public class Chemin {
 	float getXInterpolation(float position){
 		  int i = (int) position; //indice de la case que l'on quitte
 		  float x1 = getX(i); //abscisse de la case que l'on quitte
-		  float x2 = getX(i+1); //abscisse de la case où l'on arrive
+		  float x2 = getX(i+1); //abscisse de la case oï¿½ l'on arrive
 		  float c  = position-i; //fraction du trajet parcouru entre les deux cases
 		  return x2*c + x1*(1-c); //combinaison des  abscisses.
 	}
