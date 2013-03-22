@@ -13,6 +13,8 @@ public class Monstre {
 	TileView grille;
 	Paint paint;
 	Wave wave;
+	int life=10;
+	
 
 	public Monstre(Bitmap bitmap, float position, Wave wave, Chemin chemin){
 		this.bitmap = bitmap;
@@ -38,4 +40,5 @@ public class Monstre {
 	public float getY() {
 		return chemin.getYInterpolation(position);
 	}
+
 }

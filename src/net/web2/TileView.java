@@ -74,6 +74,9 @@ public class TileView extends View {
 
 	
 	private ArrayList<Tour> liste_Tours;
+	private Tour cible;
+	private Tour puissance;
+	private Monstre life;
 	
     /**
      * A hash that maps integer handles specified by the subclasser to the

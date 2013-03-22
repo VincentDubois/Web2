@@ -18,6 +18,7 @@ public class Wave {
 		this.chemin = chemin;
 		this.nombre_monstres = nombre_monstres;
 		liste_monstres = new ArrayList<Monstre>();
+
 	}
 
 	public void draw(Canvas canvas) {
@@ -43,6 +44,19 @@ public class Wave {
 		}
 		return false;
 	}
+
+	public void supmobdie(){
+		Iterator<Monstre> it = this.liste_monstres.iterator();
+		while(it.hasNext()){
+			Monstre monstre = it.next();
+			if(monstre.life <= 0){
+				it.remove();
+			}
+		}
+	}
+		
+	
+
 	
 	public void addMonstre(){
 		liste_monstres.add(new Monstre(bitmap, 0, this, chemin));
@@ -52,4 +66,5 @@ public class Wave {
 		if(liste_monstres.isEmpty())	return true;
 		else	return false;
 	}
+
 }
