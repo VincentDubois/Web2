@@ -33,10 +33,10 @@ public class Wave {
 	}
 	
 	public boolean arrived(Chemin chemin){
-		Iterator<Monstre> it = this.liste_monstres.iterator();
+		Iterator<Monstre> it = liste_monstres.iterator();
 		while(it.hasNext()){
 			Monstre monstre = it.next();
-			if(monstre.position == chemin.getPositionFinale()){
+			if(monstre.position >= (float) chemin.getPositionFinale()){
 				it.remove();
 				return true;
 			}
@@ -46,5 +46,10 @@ public class Wave {
 	
 	public void addMonstre(){
 		liste_monstres.add(new Monstre(bitmap, 0, this, chemin));
+	}
+	
+	public boolean destroyed(){
+		if(liste_monstres.isEmpty())	return true;
+		else	return false;
 	}
 }

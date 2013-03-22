@@ -8,7 +8,6 @@ public class Monstre {
 	
 	Chemin chemin;
 	Bitmap bitmap;
-	float dDD; // distance Depuis D�but
 	float vx; // vitesse
 	float position;
 	TileView grille;

@@ -3,7 +3,6 @@ package net.web2;
 public class Chemin {
 	int[] debut, fin;
 	private int[][] run;
-	int i, j;
 	
 	TileView grille;
 
@@ -14,14 +13,16 @@ public class Chemin {
 				{6,6},{5,6},{4,6},{4,7},{4,8},{4,9},{5,9},{6,9},{6,10},
 				{6,11},{6,12},{7,12},{8,12},{9,12},{9,13},{9,14}};
 		this.grille = grille;
+		debut = run[0];
+		fin = run[run.length-1];
 	}
 
 	public int[] getDebut(){
-		return debut = run[0];
+		return debut;
 	}
 	
 	public int[] getFinal(){
-		return fin = run[run.length-1];
+		return fin;
 	}
 	
 	public int getPositionFinale(){
@@ -29,11 +30,11 @@ public class Chemin {
 	}
 	
 	public float getI(float position){
-		return i = run[(int) position][1];
+		return run[(int) position][1];
 	}
 	
 	public float getJ(float position){
-		return j = run[(int) position][0];
+		return run[(int) position][0];
 	}
 	
     public float getX(float position){
