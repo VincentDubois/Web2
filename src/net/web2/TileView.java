@@ -54,6 +54,7 @@ public class TileView extends View {
     private static final int VIDE = 0;
     private static final int ROUTE = 1;
     private static final int TOUR = 2;
+    private static final int TOUR2 = 3;
     
     public int vie;
 	public int argent;
@@ -94,6 +95,7 @@ public class TileView extends View {
         resetTiles(4);
         loadTile(VIDE, r.getDrawable(R.drawable.herbe));
         loadTile(TOUR, r.getDrawable(R.drawable.tour));
+        loadTile(TOUR2, r.getDrawable(R.drawable.tour_2));
         loadTile(ROUTE, r.getDrawable(R.drawable.chemin));
   
     }
@@ -136,7 +138,7 @@ public class TileView extends View {
 			argent -= 100;
 			
 			// ajout de la tour créée dans la collection liste_Tours :
-			liste_Tours.add(new Tour(i, j, 1, 3, 5));
+			liste_Tours.add(new Tour(i, j, 1, 3, 5)); // i , j , portee_min, portee_max, puissance
     	}
     }
     
@@ -147,7 +149,7 @@ public class TileView extends View {
     		invalidate();
     		
     		// suppression de la tour dans la collection liste_Tours :
-    		Iterator<Tour> it = this.liste_Tours.iterator();
+    		Iterator<Tour> it = liste_Tours.iterator();
     		while(it.hasNext()){
     			Tour tour = it.next();
     			if(tour.i == i && tour.j == j){
@@ -156,6 +158,18 @@ public class TileView extends View {
     		}
     	}
     }
+    
+	public void upgradeTour(int i, int j){
+		if (getTile(i, j) == TOUR && argent >= 100){
+			argent -= 100;
+			setTile(TOUR2, i, j);
+			Iterator<Tour> it = liste_Tours.iterator();
+			while(it.hasNext()){
+				Tour tour = it.next();
+				if(tour.i == i && tour.j == j)	tour.upgrade();
+			}
+		}
+	}
     
     
     
@@ -326,11 +340,13 @@ public class TileView extends View {
 	    	int i = getI(tabFloat[0]);
 	    	int j = getJ(tabFloat[1]);
 			if(getTile(i, j) == VIDE)		ajout(i, j); // methode ajout d'une tour
-			else if(getTile(i, j) == TOUR)	suppression(i, j); // methode suppression d'une tour
+			else if(getTile(i, j) == TOUR)	upgradeTour(i, j); //suppression(i, j); // methode suppression d'une tour
 		}
 		return true;
 	}
     
+    
+   
     //Gestion taille ecran 
     @Override
     protected void onSizeChanged(int largeur, int hauteur, int ancien_largeur, int ancien_hauteur) {

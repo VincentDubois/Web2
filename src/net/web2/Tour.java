@@ -15,5 +15,9 @@ public class Tour {
 		this.puissance = puissance;
 		this.cible = null;
 	}
-	
+
+	public void upgrade(){
+		porteeMax++;
+		puissance++;
+	}
 }
