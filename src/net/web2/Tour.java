@@ -3,7 +3,7 @@ package net.web2;
 
 public class Tour {
 	int i, j;
-	int porteeMin, porteeMax;
+	int porteeMin = 0, porteeMax = 2;
 	int puissance;
 	Monstre cible;
 	
@@ -16,4 +16,9 @@ public class Tour {
 		this.cible = null;
 	}
 	
+	public void cible(double d, Monstre monstre) {
+		if (porteeMin<d && d<porteeMax){
+			cible = monstre;
+		}
+	}
 }
